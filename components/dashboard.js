@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 import firebase from '../database/firebase';
-import { Card } from 'react-native-material-ui';
-
+import { Card, Title, Paragraph } from 'react-native-paper';
+import { AntDesign, Foundation, FontAwesome } from '@expo/vector-icons'; 
 
 
 export default class Dashboard extends Component {
@@ -28,10 +28,34 @@ export default class Dashboard extends Component {
     }    
     return (
       <View style={styles.container}>
+<View style={styles.cardView}>
+  <Card style={styles.cards}>
+    <Card.Content style={styles.cardContent}>
+      <Title>New Invoice</Title>
+      <AntDesign name="addfile" size={24} color="black" />
+    </Card.Content>
+  </Card>
+  <Card style={styles.cards}>
+    <Card.Content style={styles.cardContent}>
+      <Title>Invoices</Title>
+      <Foundation name="page" size={24} color="black" /> 
+     </Card.Content>
+  </Card>
+  <Card style={styles.cards}>
+    <Card.Content style={styles.cardContent}>
+      <Title>New Customer</Title>
+      <FontAwesome name="user-plus" size={24} color="black" />
+        </Card.Content>
+  </Card>
 
-      <Card>
-        <Text>Hello world!</Text>
-      </Card>
+  <Card style={styles.cards}>
+    <Card.Content style={styles.cardContent}>
+      <Title>Customers</Title>
+      <FontAwesome name="users" size={24} color="black" />
+     </Card.Content>
+  </Card>
+ 
+</View>
 
         <Button
           color="#3740FE"
@@ -54,6 +78,22 @@ const styles = StyleSheet.create({
   },
   textStyle: {
     fontSize: 15,
+    marginBottom: 20
+  }, 
+  cardView: {
+    flex: 1, 
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%'
+  },
+  cardContent: {
+    display: 'flex', 
+    flexDirection: 'row', 
+    justifyContent: 'space-between',
+
+  },
+  cards: {
+    marginTop: 10,
     marginBottom: 20
   }
 });
