@@ -4,11 +4,11 @@ import firebase from '../database/firebase';
 
 
 export default class Login extends Component {
-  
+
   constructor() {
     super();
-    this.state = { 
-      email: '', 
+    this.state = {
+      email: '',
       password: '',
       isLoading: false
     }
@@ -21,42 +21,37 @@ export default class Login extends Component {
   }
 
   userLogin = () => {
-    if(this.state.email === '' && this.state.password === '') {
+    if (this.state.email === '' && this.state.password === '') {
       Alert.alert('Enter details to signin!')
     } else {
       this.setState({
         isLoading: true,
       })
       firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then((res) => {
-        console.log(res)
-        console.log('User logged-in successfully!')
-        this.setState({
-          isLoading: false,
-          email: '', 
-          password: ''
+        .auth()
+        .signInWithEmailAndPassword(this.state.email, this.state.password)
+        .then((res) => {
+          console.log(res)
+          console.log('User logged-in successfully!')
+          this.setState({
+            isLoading: false,
+            email: '',
+            password: ''
+          })
+          this.props.navigation.navigate('Dashboard')
         })
-        this.props.navigation.navigate('Dashboard')
-      })
-      .catch(error => this.setState({ errorMessage: error.message }))
+        .catch(error => this.setState({ errorMessage: error.message }))
     }
   }
 
   render() {
-    if(this.state.isLoading){
-      return(
-        <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E"/>
-        </View>
-      )
-    }    
+
     return (
-      <View style={styles.container}>  
+      <View style={styles.container}>
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
+          autoCapitalize="none"
           value={this.state.email}
           onChangeText={(val) => this.updateInputVal(val, 'email')}
         />
@@ -67,18 +62,18 @@ export default class Login extends Component {
           onChangeText={(val) => this.updateInputVal(val, 'password')}
           maxLength={15}
           secureTextEntry={true}
-        />   
+        />
         <Button
           color="#3740FE"
           title="Signin"
           onPress={() => this.userLogin()}
-        />   
+        />
 
-        <Text 
+        <Text
           style={styles.loginText}
           onPress={() => this.props.navigation.navigate('Signup')}>
           Don't have account? Click here to signup
-        </Text>                          
+        </Text>
       </View>
     );
   }
