@@ -12,10 +12,20 @@ export default class Dashboard extends Component {
   constructor() {
     super();
     this.state = {
-      uid: ''
+      uid: '',
+      loading: true,
+      authenticated: false,
     }
   }
-
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ loading: false, authenticated: true });
+      } else {
+        this.setState({ loading: false, authenticated: false });
+      }
+    });
+  }
   signOut = () => {
     firebase.auth().signOut().then(() => {
       this.props.navigation.navigate('Login')
@@ -24,9 +34,10 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    this.state = {
-      displayName: firebase.auth().currentUser.displayName,
-      uid: firebase.auth().currentUser.uid
+    if (this.state.loading) return null; // Render loading/splash screen etc
+
+    if (!this.state.authenticated) {
+      return <Login />;
     }
     return (
       <View style={styles.container}>

@@ -10,6 +10,14 @@ import CreateInvoice from './components/Invoices/createInvoice'
 import CustomerList from './components/Customers/customersList'
 import CreateCustomer from './components/Customers/createCustomers'
 import Loading from './components/Loading'
+import CustomerDetail from './components/Customers/CustomerDetail'
+import { decode, encode } from 'base-64'
+global.crypto = require("@firebase/firestore");
+global.crypto.getRandomValues = byteArray => { for (let i = 0; i < byteArray.length; i++) { byteArray[i] = Math.floor(256 * Math.random()); } }
+
+if (!global.btoa) { global.btoa = encode; }
+
+if (!global.atob) { global.atob = decode; }
 const Stack = createStackNavigator();
 
 function MyStack() {
@@ -76,6 +84,14 @@ function MyStack() {
         component={CreateCustomer}
         options={
           { title: 'New Customer' },
+          { headerLeft: null }
+        }
+      />
+      <Stack.Screen
+        name="CustomerDetail"
+        component={CustomerDetail}
+        options={
+          { title: 'Customer Info' },
           { headerLeft: null }
         }
       />
