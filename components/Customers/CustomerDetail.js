@@ -8,6 +8,7 @@ class CustomerDetail extends Component {
   constructor() {
     super();
     this.state = {
+      key: '',
       name: '',
       company: '',
       phone: '',
@@ -18,14 +19,14 @@ class CustomerDetail extends Component {
   }
 
   componentDidMount() {
-    const dbRef = firebase.firestore().collection('customers').doc(this.props.route.params.customerId)
-    dbRef.get().then((res) => {
-      console.log(res.data())
+    const { route } = this.props;
+
+    const ref = firebase.firestore().collection('customers').doc(JSON.parse(route.params['customerKey']))
+    ref.get().then((res) => {
       if (res.exists) {
         const customer = res.data();
-        console.log(customer)
         this.setState({
-          key: customer.customerId,
+          key: res.id,
           name: customer.name,
           company: customer.company,
           email: customer.email,
@@ -45,12 +46,14 @@ class CustomerDetail extends Component {
     this.setState(state);
   }
 
-  updateUser() {
+  updateCustomer() {
     this.setState({
       isLoading: true,
     });
-    const updateDBRef = firebase.firestore().collection('customers').doc(this.state.customerId);
-    updateDBRef.set({
+    const { route } = this.props;
+
+    const ref = firebase.firestore().collection('customers').doc(JSON.parse(route.params['customerKey']))
+    ref.set({
       name: this.state.name,
       company: this.state.company,
       phone: this.state.phone,
@@ -65,7 +68,7 @@ class CustomerDetail extends Component {
         address: '',
         isLoading: false,
       });
-      this.props.navigation.navigate('Dashboard');
+      this.props.navigation.navigate('CustomersList');
     })
       .catch((error) => {
         console.error("Error: ", error);
@@ -76,19 +79,21 @@ class CustomerDetail extends Component {
   }
 
   deleteCustomer() {
-    const dbRef = firebase.firestore().collection('customers').doc(this.props.route.params.customerId)
-    dbRef.delete().then((res) => {
+    const { route } = this.props;
+
+    const ref = firebase.firestore().collection('customers').doc(JSON.parse(route.params['customerKey']))
+    ref.delete().then((res) => {
       console.log('Item removed from database')
-      this.props.navigation.navigate('Dashboard');
+      this.props.navigation.navigate('CustomersList');
     })
   }
 
   openTwoButtonAlert = () => {
     Alert.alert(
-      'Delete User',
+      'Delete Customer',
       'Are you sure?',
       [
-        { text: 'Yes', onPress: () => this.deleteUser() },
+        { text: 'Yes', onPress: () => this.deleteCustomer() },
         { text: 'No', onPress: () => console.log('No item was removed'), style: 'cancel' },
       ],
       {
@@ -105,33 +110,33 @@ class CustomerDetail extends Component {
           style={styles.inputStyle}
           placeholder="name"
           value={this.state.name}
-          onChangeText={(val) => this.updateInputVal(val, 'name')}
+          onChangeText={(val) => this.inputValueUpdate(val, 'name')}
 
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="Compnany"
           value={this.state.company}
-          onChangeText={(val) => this.updateInputVal(val, 'company')}
+          onChangeText={(val) => this.inputValueUpdate(val, 'company')}
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="Phone"
           value={this.state.phone}
-          onChangeText={(val) => this.updateInputVal(val, 'phone')}
+          onChangeText={(val) => this.inputValueUpdate(val, 'phone')}
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="email"
           autoCapitalize='none'
           value={this.state.email}
-          onChangeText={(val) => this.updateInputVal(val, 'email')}
+          onChangeText={(val) => this.inputValueUpdate(val, 'email')}
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="address"
           value={this.state.address}
-          onChangeText={(val) => this.updateInputVal(val, 'address')}
+          onChangeText={(val) => this.inputValueUpdate(val, 'address')}
         />
 
         <View style={styles.button}>

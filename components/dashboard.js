@@ -34,11 +34,7 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    if (this.state.loading) return null; // Render loading/splash screen etc
 
-    if (!this.state.authenticated) {
-      return <Login />;
-    }
     return (
       <View style={styles.container}>
         <View style={styles.cardView}>

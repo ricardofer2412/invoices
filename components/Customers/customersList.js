@@ -10,22 +10,46 @@ export default class CustomersList extends Component {
 
   constructor() {
     super();
-    this.firestoreRef = firebase.firestore().collection('customers');
+    this.ref = firebase.firestore().collection('customers');
     this.state = {
       isLoading: true,
-      customers: []
+      customers: [],
+      key: ''
     }
   }
   componentDidMount() {
-    firebase.firestore().collection('customers')
-      .get()
-      .then(querySnapshot => {
-        const data = querySnapshot.docs.map(doc => doc.data())
-        console.log(data)
-        console.log(data.uid)
-        this.setState({ customers: data })
-      })
+    this.unsunscribe = this.ref.onSnapshot(this.onCollectionUpdate);
   }
+
+  onCollectionUpdate = (querySnapshot) => {
+    const customers = []
+    querySnapshot.forEach((doc) => {
+      const {
+        name, company, customerId
+      } = doc.data()
+      customers.push({
+        key: doc.id,
+        doc,
+        name,
+        company,
+        customerId
+      })
+    })
+    this.setState({
+      customers,
+      isLoading: false
+    })
+  }
+
+  //   firebase.firestore().collection('customers')
+  //     .get()
+  //     .then(querySnapshot => {
+  //       const data = querySnapshot.docs.map(doc => doc.data())
+  //       console.log(data)
+  //       console.log(data.uid)
+  //       this.setState({ customers: data })
+  //     })
+  // }
   render() {
     return (
       <View>
@@ -34,14 +58,14 @@ export default class CustomersList extends Component {
             <ListItem
               key={i}
               title={l.name}
-              subtitle={l.uid}
+              //       subtitle={l.customerId}
               chevron={{ color: 'gray' }}
               bottomDivider
               button
               onPress={() => {
                 this.props.navigation.navigate('CustomerDetail', {
-                  customerId: l.customerId
-                })
+                  customerKey: `${JSON.stringify(l.key)}`,
+                });
 
               }}
             />
