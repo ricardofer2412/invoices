@@ -4,14 +4,14 @@ import firestore from 'firebase/firestore'
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBrNNecSwdCNc1qUQ2yy0j0O0nNHXi6oAg",
-    authDomain: "invoices-9d0b8.firebaseapp.com",
-    databaseURL: "https://invoices-9d0b8.firebaseio.com",
-    projectId: "invoices-9d0b8",
-    storageBucket: "invoices-9d0b8.appspot.com",
-    messagingSenderId: "421803080680",
-    appId: "1:421803080680:web:b82d64a7f999e43282025d",
-    measurementId: "G-01M4LRMBWR"
+    apiKey: "AIzaSyDfNuiQ9z4aKU8zaCjDhaYq6SmFm-G5lZ0",
+    authDomain: "invoiceapp-59fb6.firebaseapp.com",
+    databaseURL: "https://invoiceapp-59fb6.firebaseio.com",
+    projectId: "invoiceapp-59fb6",
+    storageBucket: "invoiceapp-59fb6.appspot.com",
+    messagingSenderId: "508381362823",
+    appId: "1:508381362823:web:973de778b83ea81320d622",
+    measurementId: "G-96P75CR5DN"
 };
 
 if (!firebase.apps.length) {

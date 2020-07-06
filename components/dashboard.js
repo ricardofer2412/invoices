@@ -9,15 +9,27 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 
 export default class Dashboard extends Component {
+
+
   constructor() {
+
     super();
+    this.customerRef = firebase.firestore().collection('customers')
     this.state = {
       uid: '',
       loading: true,
       authenticated: false,
+
+
     }
   }
   componentDidMount() {
+    this.customerRef.get()
+      .then(querySnapshot => {
+        console.log(querySnapshot.size)
+        this.customerNumber = querySnapshot.size
+      })
+
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ loading: false, authenticated: true });
@@ -25,6 +37,7 @@ export default class Dashboard extends Component {
         this.setState({ loading: false, authenticated: false });
       }
     });
+
   }
   signOut = () => {
     firebase.auth().signOut().then(() => {

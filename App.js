@@ -30,12 +30,14 @@ function MyStack({ initalRouteName }) {
       screenOptions={{
         headerTitleAlign: 'center',
         headerStyle: {
-          backgroundColor: '#3740FE',
+          backgroundColor: '#5D5AAA',
         },
         headerTintColor: '#fff',
         headerTitleStyle: {
           fontWeight: 'bold',
         },
+        cardStyle: { backgroundColor: 'white' },
+
       }}>
 
       <Stack.Screen
@@ -58,7 +60,7 @@ function MyStack({ initalRouteName }) {
         name="CreateInvoice"
         component={CreateInvoice}
         options={
-          { title: 'CreateInvoice' },
+          { title: 'New Invoice' },
           { headerLeft: null }
         }
       />

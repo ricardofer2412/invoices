@@ -41,15 +41,6 @@ export default class CustomersList extends Component {
     })
   }
 
-  //   firebase.firestore().collection('customers')
-  //     .get()
-  //     .then(querySnapshot => {
-  //       const data = querySnapshot.docs.map(doc => doc.data())
-  //       console.log(data)
-  //       console.log(data.uid)
-  //       this.setState({ customers: data })
-  //     })
-  // }
   render() {
     return (
       <View>
